@@ -137,3 +137,38 @@ def chatbot(q: str):
         "question": q,
         "response": answer
     }
+
+
+
+@app.get("/quiz")
+
+def quiz():
+
+    questions = [
+
+        {
+            "question":
+            "What is Python?",
+
+            "answer":
+            "Programming Language"
+        },
+
+        {
+            "question":
+            "What is AI?",
+
+            "answer":
+            "Artificial Intelligence"
+        },
+
+        {
+            "question":
+            "What is Machine Learning?",
+
+            "answer":
+            "Subset of AI"
+        }
+    ]
+
+    return questions

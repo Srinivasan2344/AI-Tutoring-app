@@ -35,6 +35,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin: 10px;
         }
 
         #result{
@@ -86,6 +87,14 @@
 
         <button onclick="loadStudents()">
             Load Students
+        </button>
+
+        <hr>
+
+        <h2>Quiz Generator</h2>
+
+        <button onclick="loadQuiz()">
+            Generate Quiz
         </button>
 
         <div id="result"></div>
@@ -191,6 +200,43 @@
                 data[i].email +
 
                 "<br><br>"
+            }
+
+            document.getElementById("result")
+            .innerHTML = output
+        }
+
+
+
+        async function loadQuiz(){
+
+            let response =
+            await fetch(
+
+                "http://127.0.0.1:8000/quiz"
+            )
+
+            let data =
+            await response.json()
+
+            let output = ""
+
+
+            for(let i = 0; i < data.length; i++){
+
+                output +=
+
+                "<h3>" +
+
+                data[i].question +
+
+                "</h3>" +
+
+                "<p>" +
+
+                data[i].answer +
+
+                "</p><hr>"
             }
 
             document.getElementById("result")
