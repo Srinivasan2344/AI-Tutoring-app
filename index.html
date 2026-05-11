@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AI Education App</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background: #f2f2f2;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .container{
+            width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        input{
+            width: 90%;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        button{
+            padding: 10px 20px;
+            background: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #result{
+            margin-top: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>AI Education App</h1>
+
+        <h2>Student Registration</h2>
+
+        <input
+        type="text"
+        id="name"
+        placeholder="Enter Name">
+
+        <input
+        type="email"
+        id="email"
+        placeholder="Enter Email">
+
+        <button onclick="registerStudent()">
+            Register
+        </button>
+
+        <hr>
+
+        <h2>AI Tutor Chatbot</h2>
+
+        <input
+        type="text"
+        id="question"
+        placeholder="Ask Question">
+
+        <button onclick="askAI()">
+            Ask AI
+        </button>
+
+        <hr>
+
+        <h2>View Students</h2>
+
+        <button onclick="loadStudents()">
+            Load Students
+        </button>
+
+        <div id="result"></div>
+
+    </div>
+
+
+
+    <script>
+
+        async function registerStudent(){
+
+            let name =
+            document.getElementById("name").value
+
+            let email =
+            document.getElementById("email").value
+
+
+            let response =
+            await fetch(
+
+                "http://127.0.0.1:8000/register",
+
+                {
+
+                    method: "POST",
+
+                    headers:{
+                        "Content-Type":
+                        "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        name: name,
+                        email: email
+                    })
+                }
+            )
+
+            let data =
+            await response.json()
+
+            document.getElementById("result")
+            .innerHTML =
+            data.message
+        }
+
+
+
+        async function askAI(){
+
+            let question =
+            document.getElementById("question").value
+
+
+            let response =
+            await fetch(
+
+                "http://127.0.0.1:8000/chatbot?q="
+                + question
+            )
+
+            let data =
+            await response.json()
+
+            document.getElementById("result")
+            .innerHTML =
+            data.response
+        }
+
+
+
+        async function loadStudents(){
+
+            let response =
+            await fetch(
+
+                "http://127.0.0.1:8000/students"
+            )
+
+            let data =
+            await response.json()
+
+            let output = ""
+
+
+            for(let i = 0; i < data.length; i++){
+
+                output +=
+
+                "ID: " +
+
+                data[i].id +
+
+                " | " +
+
+                data[i].name +
+
+                " | " +
+
+                data[i].email +
+
+                "<br><br>"
+            }
+
+            document.getElementById("result")
+            .innerHTML = output
+        }
+
+    </script>
+
+</body>
+
+</html>
